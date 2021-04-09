@@ -1,13 +1,45 @@
 version: 2.1
+commands:
+  install_deps:
+    steps:
+      - run:
+          name: Install dependencies
+          command: |
+            npm install --prefix src/
 
 jobs:
   ci-build:
     docker:
       - image: circleci/node:lts
+    environment:
+      JEST_JUNIT_OUTPUT_DIR: test-output
+    steps:
+      - checkout 
+      - install_deps
+      - run:
+          name: run unit tests
+          command: |
+            npm run test-unit --prefix src/
+  pack:
+    docker:
+      - image: circleci/node:lts
+    environment:
+      NODE_ENV: production
     steps:
       - checkout
+      - install_deps
+      - store_artifacts:
+          path: ./
 
 workflows:
   build-and-packge:
     jobs:
       - ci-build
+      - pack:
+          requires:
+            - ci-build
+          filters:
+            branches:
+              only:
+                - master
+            
