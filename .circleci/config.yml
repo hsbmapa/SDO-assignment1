@@ -32,7 +32,8 @@ jobs:
       - run:
           name: Packing artifacts
           command: |
-            npm pack --prefix src/
+            cd src/
+            npm pack
       - store_artifacts:
           path: ./src/stonk-app.tgz
   integration-tests:
