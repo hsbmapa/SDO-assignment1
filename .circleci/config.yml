@@ -89,6 +89,8 @@ workflows:
       - pack:
           requires:
             - ci-build
+            - integration-tests
+            - sast
           filters:
             branches:
               only:
