@@ -21,21 +21,6 @@ jobs:
           command: |
             npm run test-unit --prefix src/
             mkdir -p test-output
-  pack:
-    docker:
-      - image: circleci/node:lts
-    environment:
-      NODE_ENV: production
-    steps:
-      - checkout
-      - install_deps
-      - run:
-          name: Packing artifacts
-          command: |
-            cd src/
-            npm pack
-      - store_artifacts:
-          path: ./src/stonk-app.tgz
   integration-tests:
     docker:
       - image: circleci/node:lts
@@ -75,6 +60,20 @@ jobs:
           command: |
             # exit with a non-zero exit code if there are any security issues
             exit $(cat sast-output.json | jq .total_count.sec)
+  pack:
+    docker:
+      - image: circleci/node:lts
+    environment:
+      NODE_ENV: production
+    steps:
+      - checkout
+      - install_deps
+      - run:
+          name: Packing artifacts
+          command: |
+            npm pack --prefix src/
+      - store_artifacts:
+          path: ./src/stonk-app.tgz
 
 workflows:
   build-and-packge:
