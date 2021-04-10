@@ -63,15 +63,15 @@ jobs:
   e2e:
     docker:
       - image: circleci/node:lts-browsers
+      - image: mongo:4.0
     steps:
       - checkout
       - install_deps
       - run:
           name: Run E2E Tests
           command: |
-            npm start &
-            npx wait-on http://localhost:5000
-            npm run test-e2e
+            chmod +x scripts/e2e-ci.sh
+            ./scripts/e2e-ci.sh
           environment:
             QAW_HEADLESS: "TRUE"
             QAW_ARTIFACT_PATH: src/.qawolf
