@@ -102,12 +102,13 @@ workflows:
             - ci-build
       - sast:
           requires:
-            - ci-build
+            - integration-tests
+      - e2e:
+          requires:
+            - sast
       - pack:
           requires:
-            - ci-build
-            - integration-tests
-            - sast
+            - e2e
           filters:
             branches:
               only:
