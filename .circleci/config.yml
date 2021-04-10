@@ -29,8 +29,12 @@ jobs:
     steps:
       - checkout
       - install_deps
+      - run:
+          name: Packing artifacts
+          command: |
+            npm pack --prefix src/
       - store_artifacts:
-          path: ./
+          path: ./src/stonk-app.tgz
   integration-tests:
     docker:
       - image: circleci/node:lts
