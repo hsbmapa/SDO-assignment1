@@ -63,6 +63,7 @@ jobs:
   e2e:
     docker:
       - image: circleci/node:lts-browsers
+        user: root
     steps:
       - checkout
       - install_deps
