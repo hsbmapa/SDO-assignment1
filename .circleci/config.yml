@@ -74,7 +74,7 @@ jobs:
             cd src/
             npm pack
       - store_artifacts:
-          path: ./src/stonk-app.tgz
+          path: ./src/simpletodoapp-1.0.0.tgz
 
 workflows:
   build-and-packge:
