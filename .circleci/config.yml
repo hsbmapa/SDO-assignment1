@@ -20,6 +20,15 @@ jobs:
           name: run unit tests
           command: |
             npm run test-unit --prefix src/
+      - run:
+          name: Lint testing
+          command: |
+            npm run test-lint --prefix src/
+          environment:
+            MOCHA_FILE: eslint.xml
+          when: always
+      - store_artifacts:
+          path: src/eslint.xml
   pack:
     docker:
       - image: circleci/node:lts
@@ -30,17 +39,6 @@ jobs:
       - install_deps
       - store_artifacts:
           path: ./
-  integration-tests:
-    docker:
-      - image: circleci/node:lts
-      - image: mongo:4.0
-    steps:
-      - checkout
-      - install_deps
-      - run:
-          name: Integration test
-          command: |
-            npm run test-integration --prefix src/
 
 
 workflows:
@@ -53,5 +51,5 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
             
