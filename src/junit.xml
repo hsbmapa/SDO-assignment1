@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="0" time="0.794">
+  <testsuite name="Register" errors="0" failures="0" skipped="0" timestamp="2021-04-10T11:19:18" time="0.764" tests="3">
+    <testcase classname="Register Should Register a new user and redirect to login" name="Register Should Register a new user and redirect to login" time="0.11">
+    </testcase>
+    <testcase classname="FailLogin should fail with incorrect credentials and redirect to login page" name="FailLogin should fail with incorrect credentials and redirect to login page" time="0.057">
+    </testcase>
+    <testcase classname="SuccessLogin should pass with correct credentials and redirect to /todos" name="SuccessLogin should pass with correct credentials and redirect to /todos" time="0.055">
+    </testcase>
+  </testsuite>
+</testsuites>
