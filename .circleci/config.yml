@@ -62,16 +62,20 @@ jobs:
             exit $(cat sast-output.json | jq .total_count.sec)
   e2e:
     docker:
-      - image: circleci/node:lts
+      - image: circleci/node:lts-browsers
       - image: mongo:4.0
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 20.10.2
+          docker_layer_caching: true
       - install_deps
       - run:
           name: Run E2E Tests
           command: |
-            npm start & npx wait-on http://localhost:5000
-            npm run test-e2e
+            docker build -f src/qawolfdockerfile ./src -t qabuild:latest --no-cache
+            docker-compose -f docker-compose-e2e.yml up -d
+            docker exec -it qawolf /usr/app/e2e.sh
           environment:
             QAW_HEADLESS: "TRUE"
             QAW_ARTIFACT_PATH: src/.qawolf
