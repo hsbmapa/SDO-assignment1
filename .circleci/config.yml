@@ -12,7 +12,7 @@ jobs:
     docker:
       - image: circleci/node:lts
     environment:
-      JEST_JUNIT_OUTPUT_DIR: test-output
+      JEST_JUNIT_OUTPUT_DIR: test-output/unit
     steps:
       - checkout 
       - install_deps
@@ -29,6 +29,8 @@ jobs:
     docker:
       - image: circleci/node:lts
       - image: mongo:4.0
+    environment:
+      JEST_JUNIT_OUTPUT_DIR: test-output/integration-test
     steps:
       - checkout
       - install_deps
@@ -78,14 +80,11 @@ jobs:
           command: |
             chmod +x scripts/e2e-ci.sh
             ./scripts/e2e-ci.sh
-            mkdir -p test-output/e2e
           environment:
             QAW_HEADLESS: "TRUE"
             QAW_ARTIFACT_PATH: src/.qawolf
       - store_artifacts:
           path: src/.qawolf
-      - store_test_results:
-          path: src/test-output/e2e
 
   pack:
     docker:
@@ -112,7 +111,7 @@ workflows:
             - ci-build
       - sast:
           requires:
-            - integration-tests
+            - ci-build
       - e2e:
           requires:
             - integration-tests
