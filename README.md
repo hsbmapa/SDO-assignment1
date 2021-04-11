@@ -1,3 +1,18 @@
+# Assignment 1 DevOps
+Name: Heshan Mapa
+Student Number: s3661741
+
+## Stonk Inc
+Stonk Inc faces several problems:
+1. Application is built and deployed manually from the lead developer's laptop.
+2. Bugs being introduced into prodcution which impacted revenue of Stonk Inc and reduced team morale with team members.
+
+As the newly hired DevOps Practitioner, I proposed the following solutions:
+1. Establishing a CI pipeline to automate builds and automate the testing processes.
+2. Creating a version control system on github.
+
+# Step-by-Step Solution
+
 # Simple Todo App with MongoDB, Express.js and Node.js
 The ToDo app uses the following technologies and javascript libraries:
 * MongoDB
