@@ -29,10 +29,11 @@ jobs:
           name: Lint Testing
           command: |
             npm run test-lint --prefix src/
+            mkdir -p test-output/lint
           environment:
-            JEST_JUNIT_OUTPUT_DIR: test-output/unit
+            JEST_JUNIT_OUTPUT_DIR: test-output/lint
       - store_artifacts:
-          path: eslint.xml
+          path: src/test-output/lint
   integration-tests:
     docker:
       - image: circleci/node:lts
