@@ -1,5 +1,6 @@
 # Assignment 1 DevOps
 Name: Heshan Mapa
+
 Student Number: s3661741
 
 ## Stonk Inc
@@ -11,8 +12,49 @@ As the newly hired DevOps Practitioner, I proposed the following solutions:
 1. Establishing a CI pipeline to automate builds and automate the testing processes.
 2. Creating a version control system on github.
 
-# Step-by-Step Solution
+## Step-by-Step Solution
+### Setting up a private repo in GitHub
+First, we need to make a private repository on GitHub where we will work on the project. We will be ensuring we are using proper branching by using the GitHub Flow method, where all the new features we will be adding will be added and developed on feature branches and then merged into the main branch through the usage of Pull Requests which can then be later reviewed by the DevOp Practitioner (this case being me).
 
+Screenshot of the GitHub Repo
+![github repo](https://i.imgur.com/dUowg7H.png)
+
+### Continuous Integration Building
+We then have to set up integration between CircleCi and the GitHub repo.
+![circleci](https://i.imgur.com/2CXMBYq.png)
+
+## Testing in CircleCi
+### 1. Unit Testing
+Unit testing is a software testing method where individual units of the source code are tested to determine if there have been any issues made by the developer. I have integrated Unit Testing within CircleCi so whenever we push a change to one of our branches, CircleCi will check to see if all the Unit Tests provided pass.
+![unit tests](https://i.imgur.com/JP6asjS.png)
+
+### 2. Lint Testing
+Lint testing is the automated checking of the source code for programmatic and stylistic errors. We need to use lint testing as when linting is implimented, it reduces bugs and impoves the overall quality of the source.
+
+### 3. Generating Artifact
+After the testing we have done, we then will store the files generated into an artifact into CricleCi with `store_artifacts`. Artifacts will ONLY be generated on the MAIN branch.
+
+![generating artifacts](https://i.imgur.com/WBEQmsP.png)
+
+### 4. Integration Testing
+Integration testing is the phase in the software testing in which the software modules are then to be combined and then tested altogether as a gorup. Integration testing is confucted to evaluate the compliance of a system or component with specified funtional requirements.
+![integration testing](https://i.imgur.com/OD4FgVx.png)
+
+### 5. End to End testing.
+Lastly, we need to implement E2E (End to End) testing. E2E testing is a technique that tests the entire software workflow from beginning to end.
+![e2e testing](https://i.imgur.com/EkNH9PL.png)
+![e2e artifacts](https://i.imgur.com/nTWVi8C.png)
+
+## Multiple branches and pipeline
+![git branch](https://i.imgur.com/aBXzNrJ.png)
+
+For some reason, CircleCi won't show all the branches in the pipeline. But all branches were used in the pipeline.
+![circleci pipeline](https://i.imgur.com/Ec6pR1o.png)
+
+## Multiple Fail Scenarios
+![lint testing fail](https://i.imgur.com/ptvIqSe.png)
+![e2e testing fail](https://i.imgur.com/K7WvaeR.png)
+![packing fail](https://i.imgur.com/G5J9ZQ9.png)
 # Simple Todo App with MongoDB, Express.js and Node.js
 The ToDo app uses the following technologies and javascript libraries:
 * MongoDB
