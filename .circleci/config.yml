@@ -11,6 +11,8 @@ jobs:
   ci-build:
     docker:
       - image: circleci/node:lts
+    environment:
+      JEST_JUNIT_OUTPUT_DIR: test-output/unit
     steps:
       - checkout 
       - install_deps
@@ -19,23 +21,14 @@ jobs:
           command: |
             npm run test-unit --prefix src/
             mkdir -p test-output/unit
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: test-output/unit
-      - store_artifacts:
-          path: src/test-output/unit
-      - store_test_results:
-          path: src/test-output/unit
       - run:
           name: Lint Testing
           command: |
             npm run test-lint --prefix src/
-            mkdir -p test-output/lint
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: test-output/lint
       - store_artifacts:
-          path: src/test-output/lint
+          path: src/test-output/unit
       - store_test_results:
-          path: src/test-output/lint
+          path: src/test-output/unit
   integration-tests:
     docker:
       - image: circleci/node:lts
