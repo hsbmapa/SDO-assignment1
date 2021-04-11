@@ -1,0 +1,119 @@
+{
+    "files": [
+        {
+            "package-lock.json": "./src/package-lock.json"
+        },
+        {
+            "package.json": "./src/package.json"
+        },
+        {
+            "jest.config.js": "./src/jest.config.js"
+        },
+        {
+            "e2e.sh": "./src/e2e.sh"
+        },
+        {
+            ".eslintrc.yml": "./src/.eslintrc.yml"
+        },
+        {
+            "server.js": "./src/server.js"
+        },
+        {
+            "app.js": "./src/app.js"
+        },
+        {
+            "routes/todos.js": "./src/routes/todos.js"
+        },
+        {
+            "routes/users.js": "./src/routes/users.js"
+        },
+        {
+            "config/database.js": "./src/config/database.js"
+        },
+        {
+            "config/passport.js": "./src/config/passport.js"
+        },
+        {
+            "helpers/auth.js": "./src/helpers/auth.js"
+        },
+        {
+            ".qawolf/tests/login.test.js": "./src/.qawolf/tests/login.test.js"
+        },
+        {
+            ".qawolf/tests/register.test.js": "./src/.qawolf/tests/register.test.js"
+        },
+        {
+            ".qawolf/selectors/register.json": "./src/.qawolf/selectors/register.json"
+        },
+        {
+            ".qawolf/selectors/login.json": "./src/.qawolf/selectors/login.json"
+        },
+        {
+            "models/Todo.js": "./src/models/Todo.js"
+        },
+        {
+            "models/User.js": "./src/models/User.js"
+        },
+        {
+            "test/integration/user.test.js": "./src/test/integration/user.test.js"
+        },
+        {
+            "test/unit/model.user.test.js": "./src/test/unit/model.user.test.js"
+        },
+        {
+            "test/unit/model.todos.test.js": "./src/test/unit/model.todos.test.js"
+        }
+    ],
+    "good_finding": {},
+    "missing_sec_header": {
+        "Web Security": [
+            {
+                "description": "Content Security Policy (CSP), a mechanism web applications can use to mitigate a broad class of content injection vulnerabilities, such as cross-site scripting (XSS). CSP Header was not found.",
+                "tag": "web",
+                "title": "Missing Security Header - Content-Security-Policy (CSP)"
+            },
+            {
+                "description": "X-Frame-Options (XFO) header provides protection against Clickjacking attacks.",
+                "tag": "web",
+                "title": "Missing Security Header - X-Frame-Options (XFO)"
+            },
+            {
+                "description": "Strict-Transport-Security (HSTS) header enforces secure (HTTP over SSL/TLS) connections to the server.",
+                "tag": "web",
+                "title": "Missing Security Header - Strict-Transport-Security (HSTS)"
+            },
+            {
+                "description": "Public-Key-Pins (HPKP) ensures that certificate is Pinned.",
+                "tag": "web",
+                "title": "Missing Security Header - Public-Key-Pins (HPKP)"
+            },
+            {
+                "description": "X-XSS-Protection header set to 1 enables the Cross-site scripting (XSS) filter built into most recent web browsers.",
+                "tag": "web",
+                "title": "Missing Security Header - X-XSS-Protection:1"
+            },
+            {
+                "description": "X-Content-Type-Options header prevents Internet Explorer and Google Chrome from MIME-sniffing a response away from the declared content-type.",
+                "tag": "web",
+                "title": "Missing Security Header - X-Content-Type-Options"
+            },
+            {
+                "description": "X-Download-Options header set to noopen prevents IE users from directly opening and executing downloads in your site's context.",
+                "tag": "web",
+                "title": "Missing Security Header - X-Download-Options: noopen"
+            },
+            {
+                "description": "Remove the X-Powered-By header to prevent information gathering.",
+                "tag": "web",
+                "title": "Information Disclosure - X-Powered-By"
+            }
+        ]
+    },
+    "sec_issues": {},
+    "total_count": {
+        "good": 0,
+        "mis": 8,
+        "sec": 0
+    },
+    "vuln_count": {}
+}
