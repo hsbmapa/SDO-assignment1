@@ -73,9 +73,8 @@ jobs:
       - run:
           name: Run E2E Tests
           command: |
-            docker build -f src/qawolfdockerfile ./src -t qabuild:latest --no-cache
-            docker-compose -f docker-compose-e2e.yml up -d
-            docker exec -it qawolf /usr/app/e2e.sh
+            chmod +x scripts/e2e-ci.sh
+            ./scripts/e2e-ci.sh
           environment:
             QAW_HEADLESS: "TRUE"
             QAW_ARTIFACT_PATH: src/.qawolf
