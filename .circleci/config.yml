@@ -40,8 +40,6 @@ jobs:
     docker:
       - image: circleci/node:lts
       - image: mongo:4.0
-    environment:
-      JEST_JUNIT_OUTPUT_DIR: test-output/integration-test
     steps:
       - checkout
       - install_deps
@@ -50,6 +48,8 @@ jobs:
           command: |
             npm run test-integration --prefix src/
             mkdir -p test-output/integration-test
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: test-output/integration-test
       - store_test_results:
           path: src/test-output/integration-test
       - store_artifacts:
