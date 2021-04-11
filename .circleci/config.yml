@@ -20,9 +20,11 @@ jobs:
           name: run unit tests
           command: |
             npm run test-unit --prefix src/
-            mkdir -p test-output
+            mkdir -p test-output/unit
       - store_artifacts:
-          path: src/test-output
+          path: src/test-output/unit
+      - store_test_results:
+          path: src/test-output/unit
   integration-tests:
     docker:
       - image: circleci/node:lts
@@ -34,11 +36,11 @@ jobs:
           name: Integration test
           command: |
             npm run test-integration --prefix src/
-            mkdir -p integration-test
+            mkdir -p test-output/integration-test
       - store_test_results:
-          path: src/integration-test
+          path: src/test-output/integration-test
       - store_artifacts:
-          path: src/integration-test
+          path: src/test-output/integration-test
   sast:
     docker:
       - image: circleci/node:lts
@@ -76,11 +78,14 @@ jobs:
           command: |
             chmod +x scripts/e2e-ci.sh
             ./scripts/e2e-ci.sh
+            mkdir -p test-output/e2e
           environment:
             QAW_HEADLESS: "TRUE"
             QAW_ARTIFACT_PATH: src/.qawolf
       - store_artifacts:
           path: src/.qawolf
+      - store_test_results:
+          path: src/test-output/e2e
 
   pack:
     docker:
