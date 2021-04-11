@@ -21,6 +21,8 @@ jobs:
           command: |
             npm run test-unit --prefix src/
             mkdir -p test-output
+      - store_artifacts:
+          path: src/test-output
   integration-tests:
     docker:
       - image: circleci/node:lts
@@ -31,9 +33,8 @@ jobs:
       - run:
           name: Integration test
           command: |
-            mkdir integration-test
             npm run test-integration --prefix src/
-          when: always
+            mkdir -p integration-test
       - store_test_results:
           path: src/integration-test
       - store_artifacts:
@@ -109,7 +110,7 @@ workflows:
             - integration-tests
       - e2e:
           requires:
-            - sast
+            - integration-tests
       - pack:
           requires:
             - e2e
