@@ -11,16 +11,92 @@ jobs:
   ci-build:
     docker:
       - image: circleci/node:lts
-    environment:
-      JEST_JUNIT_OUTPUT_DIR: test-output
     steps:
       - checkout 
       - install_deps
       - run:
-          name: run unit tests
+          name: Run Unit Tests
           command: |
             npm run test-unit --prefix src/
-            mkdir -p test-output
+            mkdir -p test-output/unit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: test-output/unit
+      - store_artifacts:
+          path: src/test-output/unit
+      - store_test_results:
+          path: src/test-output/unit
+      - run:
+          name: Lint Testing
+          command: |
+            npm run test-lint --prefix src/
+            mkdir -p test-output/lint
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: test-output/lint
+      - store_artifacts:
+          path: src/test-output/lint
+      - store_test_results:
+          path: src/test-output/lint
+  integration-tests:
+    docker:
+      - image: circleci/node:lts
+      - image: mongo:4.0
+    environment:
+      JEST_JUNIT_OUTPUT_DIR: test-output/integration-test
+    steps:
+      - checkout
+      - install_deps
+      - run:
+          name: Integration test
+          command: |
+            npm run test-integration --prefix src/
+            mkdir -p test-output/integration-test
+      - store_test_results:
+          path: src/test-output/integration-test
+      - store_artifacts:
+          path: src/test-output/integration-test
+  sast:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - checkout
+      - run:
+          name: Install NodeJsScan
+          command: |
+            sudo apt update
+            sudo apt install python3-pip
+            pip3 install nodejsscan
+      - run:
+          name: Run NodeJsScan
+          command: |
+            nodejsscan -d ./src/ -o sast-output.json
+      - store_artifacts:
+          path: sast-output.json
+      - run:
+          name: Parse sast report
+          command: |
+            # exit with a non-zero exit code if there are any security issues
+            exit $(cat sast-output.json | jq .total_count.sec)
+  e2e:
+    docker:
+      - image: circleci/node:lts-browsers
+      - image: mongo:4.0
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.2
+          docker_layer_caching: false
+      - install_deps
+      - run:
+          name: Run E2E Tests
+          command: |
+            chmod +x scripts/e2e-ci.sh
+            ./scripts/e2e-ci.sh
+          environment:
+            QAW_HEADLESS: "TRUE"
+            QAW_ARTIFACT_PATH: src/.qawolf
+      - store_artifacts:
+          path: src/.qawolf
+
   pack:
     docker:
       - image: circleci/node:lts
@@ -29,18 +105,32 @@ jobs:
     steps:
       - checkout
       - install_deps
+      - run:
+          name: Packing artifacts
+          command: |
+            cd src/
+            npm pack
       - store_artifacts:
-          path: ./
+          path: ./src/simpletodoapp-1.0.0.tgz
 
 workflows:
   build-and-packge:
     jobs:
       - ci-build
-      - pack:
+      - integration-tests:
           requires:
             - ci-build
+      - sast:
+          requires:
+            - ci-build
+      - e2e:
+          requires:
+            - integration-tests
+      - pack:
+          requires:
+            - e2e
           filters:
             branches:
               only:
-                - master
+                - main
             
